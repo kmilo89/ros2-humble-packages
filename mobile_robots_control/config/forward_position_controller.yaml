@@ -1,0 +1,16 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    my_position_controller: #-------
+      type: forward_command_controller/ForwardCommandController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+my_position_controller: #---------
+  ros__parameters:
+    joints:
+      - pos0_joint
+      - pos1_joint
+    interface_name: position

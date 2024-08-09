@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<robot name="robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="package_name" value="mobile_robots_control"/>
+  <xacro:property name="PI" value="3.14159265"/>
+  
+  <!--xacro:property name="wheelSeparation_x" value="0.085"/--> <!-- (Lx) Robot X axis (front-back) -->
+  <!--xacro:property name="wheelSeparation_y" value="0.14"/-->  <!-- (Ly) Robot Y axis (left-right) -->
+  
+  <!-- Define properties from yaml file -->
+  <xacro:property name="L_x" value="${mp['Lx']}"/> <!-- Robot X axis (front-back) -->
+  <xacro:property name="L_y" value="${mp['Ly']}"/> <!-- Robot Y axis (left-right) -->
+    
+  <xacro:property name="base_elevation" value="${mp['baseElevation']}"/>
+  <xacro:property name="wheelDiameter" value="${mp['wheels']['wheelDiameter']}"/>
+  <xacro:property name="wheelThickness" value="${mp['wheels']['wheelThickness']}"/>
+  
+  
+  <xacro:include filename="$(find ${package_name})/urdf/omnibot_gz.xacro"/>
+  
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 0.9"/> <!-- Definition of the color (for RViz) -->
+  </material>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${base_elevation}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.2 0.005"/><!-- Main block -->
+      </geometry>
+      <material name="grey" />
+    </visual>
+    <!-- Frontal part to define the robot orientation -->
+    <visual>
+      <origin xyz="0.1 0 0.045" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.07 0.076 0.03"/>
+      </geometry>
+    </visual>
+    
+    <!--For an omnidirectional robot, the base_link must touch the ground. Different from visual tag -->
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.3 0.2 0.08"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <mass value="20.0"/>
+      <!-- To obtain an acceptable motion, inertia must be large enough -->
+      <inertia ixx="2.133" ixy="0" ixz="0" iyy="4.266" iyz="0" izz="5.546" />
+    </inertial>
+  </link>
+
+
+  <!-- WHEEL MACRO --> 
+  <xacro:macro name="wheel" params="prefix parent_link joint_origin_xyz joint_origin_rpy visual_origin_xyz visual_origin_rpy wheelSide">
+  <joint name="${prefix}_joint" type="continuous">
+    <origin xyz="${joint_origin_xyz}" rpy="${joint_origin_rpy}"/>
+    <parent link="${parent_link}"/>
+    <child link="${prefix}_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="${prefix}_link">
+    <visual>
+      <origin xyz="${visual_origin_xyz}" rpy="${visual_origin_rpy}"/>
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/${wheelSide}_mecanum_wheel.dae" scale="1.0 0.8 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- To avoid a disturbance on the mobile robot, the wheel must not touch the ground -->
+        <cylinder length="${wheelThickness}" radius="${wheelDiameter/2-0.005}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.1" />
+      <inertia ixx="6.1e-5" ixy="0" ixz="0" iyy="6.1e-5" iyz="0" izz="6.1e-5" />
+    </inertial>
+  </link>
+  </xacro:macro>
+  
+  
+  <!-- Wheels definition (joints and links USING MACROS) -->
+  <!-- left_front_wheel (M1) -->
+  <xacro:wheel prefix="leftfront" parent_link="base_link" joint_origin_xyz="${L_x} ${L_y} 0.01" 
+  joint_origin_rpy="${-PI/2} 0 0" visual_origin_xyz="0 0 0" visual_origin_rpy="${-PI/2} 0 0" wheelSide="left" />
+  
+  <!-- right_front_wheel (M2) -->
+  <xacro:wheel prefix="rightfront" parent_link="base_link" joint_origin_xyz="${L_x} ${-L_y} 0.01" 
+  joint_origin_rpy="${-PI/2} 0 0" visual_origin_xyz="0 0 0" visual_origin_rpy="${-PI/2} 0 0" wheelSide="right" />
+  
+  <!-- right_back_wheel (M3) -->
+  <xacro:wheel prefix="rightback" parent_link="base_link" joint_origin_xyz="${-L_x} ${-L_y} 0.01" 
+  joint_origin_rpy="${-PI/2} 0 0" visual_origin_xyz="0 0 0" visual_origin_rpy="${-PI/2} 0 0" wheelSide="left" />
+  
+  <!-- left_back_wheel (M4) -->
+  <xacro:wheel prefix="leftback" parent_link="base_link" joint_origin_xyz="${-L_x} ${L_y} 0.01" 
+  joint_origin_rpy="${-PI/2} 0 0" visual_origin_xyz="0 0 0" visual_origin_rpy="${-PI/2} 0 0" wheelSide="right" />
+  
+</robot>
+

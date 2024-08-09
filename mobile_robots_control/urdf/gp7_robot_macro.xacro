@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!-- http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+ <xacro:property name="package_name" value="mobile_robots_control"/>
+  
+ <xacro:macro name="manipulator" params="parent_link joint_origin_xyz visual_origin_xyz">
+  <link name="link_s_1">
+    <inertial>
+      <origin xyz="-0.0233610982039615 -0.0409634881495871 -0.00705078625461891" rpy="0 0 0" />
+      <mass value="0.206747811978373" />
+      <inertia
+        ixx="0.000217192211037989"
+        ixy="3.02142658957625E-09"
+        ixz="-2.88241124961472E-05"
+        iyy="0.000264027155022737"
+        iyz="3.1166711843164E-09"
+        izz="0.000175174988217507" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/visual/link_s_1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/collision/link_s_1.stl" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="joint_1" type="revolute">
+    <origin xyz="${joint_origin_xyz}" rpy="0 0 0" />
+    <parent link="${parent_link}" />
+    <child link="link_s_1" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-2.96" upper="2.96" effort="30" velocity="6.54" />
+  </joint>
+  
+  <link name="link_l_2">
+    <inertial>
+      <origin xyz="-0.0153704712139654 0.0166692289806514 0.205508701542665" rpy="0 0 0" />
+      <mass value="0.562008352548831" />
+      <inertia
+        ixx="0.0105812150782623"
+        ixy="5.4546465153005E-08"
+        ixz="3.7360024414014E-05"
+        iyy="0.0111523147839964"
+        iyz="2.33071657229751E-07"
+        izz="0.00063823581235193" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/visual/link_l_2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/collision/link_l_2.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_2" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="link_s_1" />
+    <child link="link_l_2" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.13" upper="2.53" effort="30" velocity="6.54" />
+  </joint>
+  <link name="link_u_3">
+    <inertial>
+      <origin xyz="-0.000500936552424655 -0.00941969624887269 0.0218171190109101" rpy="0 0 0" />
+      <mass value="0.916688715390813" />
+      <inertia
+        ixx="0.00313972518885877"
+        ixy="2.67034756524424E-05"
+        ixz="-0.000282817305723292"
+        iyy="0.00272829103505119"
+        iyz="-3.99457173999864E-05"
+        izz="0.00216869170717903" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/visual/link_u_3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/collision/link_u_3.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_3" type="revolute">
+    <origin xyz="0 0 0.445" rpy="0 0 0" />
+    <parent link="link_l_2" />
+    <child link="link_u_3" />
+    <axis xyz="0 -1 0" />
+    <limit lower="-1.22" upper="3.31" effort="30" velocity="6.54" />
+  </joint>
+  
+  <link name="link_r_4">
+    <inertial>
+      <origin xyz="-0.144528762363287 -0.000457848370011256 0.00100877854966697" rpy="0 0 0" />
+      <mass value="0.475362712918695" />
+      <inertia
+        ixx="0.00070363811082682"
+        ixy="-2.1462919267349E-06"
+        ixz="2.28110348065367E-06"
+        iyy="0.00128909280889087"
+        iyz="5.50773922973421E-06"
+        izz="0.00120913789427328" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/visual/link_r_4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://${package_name}/meshes/gp7/collision/link_r_4.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_4" type="fixed">
+    <origin xyz="0.32065 0 0.04" rpy="0 0 0" />
+    <parent link="link_u_3" />
+    <child link="link_r_4" />
+    <axis xyz="-1 0 0" />
+    <!--limit lower="-3.31" upper="3.31" effort="17" velocity="9.59" /-->
+  </joint>
+  
+  
+  <gazebo reference="link_s_1">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="link_l_2">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="link_u_3">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="link_r_4">
+    <material>Gazebo/DarkGrey </material>
+  </gazebo>
+  
+ </xacro:macro>
+
+</robot>
+

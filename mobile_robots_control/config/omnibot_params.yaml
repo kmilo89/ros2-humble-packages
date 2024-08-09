@@ -1,0 +1,6 @@
+Lx: 0.15
+Ly: 0.14
+baseElevation: 0.08
+wheels:
+    wheelDiameter: 0.1
+    wheelThickness: 0.05

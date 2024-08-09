@@ -153,12 +153,25 @@ https://wiki.ros.org/urdf/XML/joint
 ros2 launch my_robot_description display.launch.xml 
 ros2 launch my_robot_description display.launch.py
 
+## Xacro
+
+```
+sudo apt install ros-humble-xacro
+```
+
+### Command to generate the urdf
+```
+ros2 param get /robot_state_publisher robot_description
+```
 
 ## Create package
 
 ```
-ros2 pkg create name_package 
+ros2 pkg create name_package # for pkg_description
+ros2 pkg create my_py_pkg --build-type ament_python --dependencies rclpy
 ```
+
+
 
 ## Repositories Turtlebot3
 
@@ -179,11 +192,14 @@ https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tens
 
 1. ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro my_robot.urdf.xacro)"
 2. ros2 launch gazebo_ros gazebo.launch.py
-3. ros2 run gazebo_
-ros spawn_entity.py -topic robot_description -entity my_robot
+3. ros2 run gazebo_ros spawn_entity.py -topic robot_description -entity my_robot
 
 ## launch file
 ros2 launch my_robot_bringup my_robot_gazebo.launch.xml
+ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py
+ros2 launch turtlebot3_gazebo empty_world.launch.py
+ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 
 ### Gazebo plugins
 
@@ -208,3 +224,45 @@ ros2 topic pub -1 /set_joint_trajectory trajectory_msgs/msg/JointTrajectory '{he
 ```
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}}"
 ```
+
+
+
+
+
+
+
+
+
+
+
+# Burger
+```
+# run burger
+export TURTLEBOT3_MODEL=burger
+ros2 launch turtlebot3_bringup robot.launch.py
+```
+
+## Camera burger
+```
+sudo raspi-config
+vcgencmd get_camera
+# Output 
+# supported=1 detected=1
+sudo apt install ros-humble-image-tools
+ros2 run image_tools cam2image
+
+```
+
+## Wii U Pro Controller 
+
+```
+sudo apt-get install ros-humble-joy
+ros2 run joy joy_node
+ros2 run joy game_controller_node
+os2 launch turtlebot3_joy joy_teleop_launch.py
+```
+
+
+## SolidWorks to urdf
+https://github.com/ros/solidworks_urdf_exporter/releases
+https://gkjohnson.github.io/urdf-loaders/javascript/example/bundle/index.html
