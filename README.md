@@ -171,6 +171,12 @@ ros2 pkg create name_package # for pkg_description
 ros2 pkg create my_py_pkg --build-type ament_python --dependencies rclpy
 ```
 
+## Clear ws
+```
+unset AMENT_PREFIX_PATH
+unset CMAKE_PREFIX_PATH
+```
+
 
 
 ## Repositories Turtlebot3

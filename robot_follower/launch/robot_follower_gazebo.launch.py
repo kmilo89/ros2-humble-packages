@@ -75,5 +75,5 @@ def generate_launch_description():
         #joint_state_publisher, #node is omitted, 'libgazebo_ros_joint_state_publisher.so' plugin is used
         gazebo_node,
         robot_state_publisher_node,
-        #robot_spawner
+        robot_spawner
     ])
